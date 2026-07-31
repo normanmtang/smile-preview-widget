@@ -1,0 +1,830 @@
+<!--
+  AI Smile Preview — Squarespace embed (self-contained)
+  ==========================================================
+  1. Paste this ENTIRE block into a Squarespace Code Block.
+  2. Set window.SMILE_API_BASE_URL below to your deployed backend URL
+     (see DEPLOYMENT.md). Do not leave the placeholder in production.
+  3. Full install steps: SQUARESPACE.md
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>window.SMILE_API_BASE_URL = 'https://your-backend.onrender.com';</script>
+<!--
+  AI Smile Preview widget
+  ------------------------------------------------------------------
+  Paste this entire block into a Squarespace Code Block (Page or
+  Section > Add Block > Code). It is self-contained: markup, styles,
+  and script all live inside this one snippet, scoped so they won't
+  collide with the rest of the page. See SQUARESPACE.md for the
+  full installation guide and the one line you must edit below
+  (SMILE_API_BASE_URL).
+-->
+<div id="smile-preview-widget" class="spw-root">
+
+  <style>
+/* =========================================================================
+   AI Smile Preview widget — styles
+   All rules are scoped under .spw-root so they cannot leak into or be
+   overridden by the surrounding Squarespace template.
+   ========================================================================= */
+
+.spw-root {
+  --spw-bg: #eef5f4;
+  --spw-surface: #ffffff;
+  --spw-ink: #16323a;
+  --spw-ink-soft: #52686d;
+  --spw-primary: #1f8a7a;
+  --spw-primary-dark: #146356;
+  --spw-primary-tint: #e3f3f0;
+  --spw-accent: #f1a9a0;
+  --spw-border: #dbe6e5;
+  --spw-error-bg: #fdecea;
+  --spw-error-ink: #9a2f24;
+  --spw-radius-lg: 20px;
+  --spw-radius-md: 14px;
+  --spw-radius-sm: 8px;
+  --spw-font-display: 'Outfit', 'Segoe UI', system-ui, sans-serif;
+  --spw-font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+
+  all: initial;
+  display: block;
+  font-family: var(--spw-font-body);
+  color: var(--spw-ink);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+.spw-root *,
+.spw-root *::before,
+.spw-root *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spw-root .spw-card { animation: spw-fade-up 0.5s ease both; }
+}
+@keyframes spw-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.spw-card {
+  max-width: 560px;
+  margin: 0 auto;
+  background: var(--spw-surface);
+  border: 1px solid var(--spw-border);
+  border-radius: var(--spw-radius-lg);
+  padding: 32px;
+  box-shadow: 0 1px 2px rgba(22, 50, 58, 0.04), 0 12px 32px -16px rgba(22, 50, 58, 0.18);
+}
+
+@media (max-width: 480px) {
+  .spw-card { padding: 20px; border-radius: var(--spw-radius-md); }
+}
+
+/* ---------------------------------------------------------------------
+   Header
+   --------------------------------------------------------------------- */
+
+.spw-header { text-align: left; margin-bottom: 24px; }
+
+.spw-eyebrow {
+  display: inline-block;
+  font-family: var(--spw-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--spw-primary-dark);
+  background: var(--spw-primary-tint);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.spw-title {
+  font-family: var(--spw-font-display);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: var(--spw-ink);
+}
+
+.spw-subtitle {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--spw-ink-soft);
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------
+   Step sections
+   --------------------------------------------------------------------- */
+
+.spw-step { display: block; }
+.spw-step[hidden] { display: none; }
+
+/* ---------------------------------------------------------------------
+   Dropzone / upload
+   --------------------------------------------------------------------- */
+
+.spw-dropzone {
+  position: relative;
+  border: 1.5px dashed var(--spw-border);
+  border-radius: var(--spw-radius-md);
+  background: var(--spw-bg);
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  margin-bottom: 16px;
+  outline: none;
+}
+
+.spw-dropzone:hover,
+.spw-dropzone:focus-visible {
+  border-color: var(--spw-primary);
+  background: var(--spw-primary-tint);
+}
+
+.spw-dropzone.spw-dragover {
+  border-color: var(--spw-primary);
+  background: var(--spw-primary-tint);
+}
+
+.spw-dropzone-content {
+  text-align: center;
+  padding: 28px 20px;
+  color: var(--spw-ink-soft);
+}
+
+.spw-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--spw-primary);
+  margin-bottom: 10px;
+}
+
+.spw-dropzone-text { font-size: 14.5px; margin: 0 0 4px; color: var(--spw-ink); }
+.spw-dropzone-text strong { color: var(--spw-primary-dark); }
+.spw-dropzone-hint { font-size: 12.5px; margin: 0; color: var(--spw-ink-soft); }
+
+.spw-preview-wrap {
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.spw-preview-img {
+  max-width: 100%;
+  max-height: 280px;
+  border-radius: var(--spw-radius-sm);
+  object-fit: contain;
+  display: block;
+}
+
+.spw-remove-btn {
+  font-family: var(--spw-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--spw-error-ink);
+  background: var(--spw-error-bg);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+.spw-remove-btn:hover { filter: brightness(0.97); }
+
+/* ---------------------------------------------------------------------
+   Consent
+   --------------------------------------------------------------------- */
+
+.spw-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--spw-ink-soft);
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.spw-consent input[type='checkbox'] {
+  margin-top: 3px;
+  width: 17px;
+  height: 17px;
+  accent-color: var(--spw-primary);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.spw-privacy-link {
+  color: var(--spw-primary-dark);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.spw-privacy-note {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--spw-primary-dark);
+  background: var(--spw-primary-tint);
+  border-radius: var(--spw-radius-sm);
+  padding: 10px 12px;
+  margin: 8px 0 16px;
+}
+
+/* ---------------------------------------------------------------------
+   Buttons
+   --------------------------------------------------------------------- */
+
+.spw-primary-btn {
+  width: 100%;
+  font-family: var(--spw-font-display);
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--spw-primary);
+  border: none;
+  border-radius: var(--spw-radius-sm);
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+  margin-top: 4px;
+}
+
+.spw-primary-btn:hover:not(:disabled) { background: var(--spw-primary-dark); }
+.spw-primary-btn:active:not(:disabled) { transform: scale(0.99); }
+.spw-primary-btn:disabled { background: #b7c8c6; cursor: not-allowed; }
+.spw-primary-btn:focus-visible { outline: 2px solid var(--spw-primary-dark); outline-offset: 2px; }
+
+.spw-secondary-btn {
+  font-family: var(--spw-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--spw-primary-dark);
+  background: var(--spw-primary-tint);
+  border: 1px solid transparent;
+  border-radius: var(--spw-radius-sm);
+  padding: 11px 16px;
+  cursor: pointer;
+  flex: 1;
+}
+.spw-secondary-btn:hover { border-color: var(--spw-primary); }
+.spw-secondary-btn:focus-visible { outline: 2px solid var(--spw-primary-dark); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------------
+   Errors
+   --------------------------------------------------------------------- */
+
+.spw-error {
+  font-size: 13px;
+  color: var(--spw-error-ink);
+  background: var(--spw-error-bg);
+  border-radius: var(--spw-radius-sm);
+  padding: 10px 12px;
+  margin: 12px 0 0;
+}
+.spw-error[hidden] { display: none; }
+
+/* ---------------------------------------------------------------------
+   Loading
+   --------------------------------------------------------------------- */
+
+.spw-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 12px;
+}
+
+.spw-spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid var(--spw-primary-tint);
+  border-top-color: var(--spw-primary);
+  animation: spw-spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spw-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spw-spinner { animation-duration: 2s; }
+}
+
+.spw-loading-text {
+  font-family: var(--spw-font-display);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.spw-loading-hint {
+  font-size: 13px;
+  color: var(--spw-ink-soft);
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------
+   Before / after comparison slider — the widget's signature element
+   --------------------------------------------------------------------- */
+
+.spw-compare {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--spw-radius-md);
+  overflow: hidden;
+  background: var(--spw-bg);
+  margin-bottom: 16px;
+  user-select: none;
+}
+
+.spw-compare-before,
+.spw-compare-after {
+  position: absolute;
+  inset: 0;
+}
+
+.spw-compare-before img,
+.spw-compare-after img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.spw-compare-after {
+  clip-path: inset(0 50% 0 0);
+}
+
+.spw-compare-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.spw-compare-handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 0 1px rgba(22, 50, 58, 0.15);
+}
+
+.spw-compare-handle-grip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50% 50% 50% 8px / 50% 50% 65% 35%;
+  background: #ffffff;
+  color: var(--spw-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(22, 50, 58, 0.25);
+}
+
+.spw-compare-slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.spw-badge {
+  position: absolute;
+  top: 12px;
+  font-family: var(--spw-font-body);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--spw-ink);
+  background: rgba(255, 255, 255, 0.88);
+  padding: 4px 10px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+.spw-badge-before { left: 12px; }
+.spw-badge-after { right: 12px; }
+
+.spw-disclaimer {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--spw-ink-soft);
+  background: var(--spw-bg);
+  border-left: 3px solid var(--spw-accent);
+  padding: 10px 12px;
+  border-radius: var(--spw-radius-sm);
+  margin: 0 0 18px;
+}
+
+.spw-result-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ---------------------------------------------------------------------
+   Small screens
+   --------------------------------------------------------------------- */
+
+@media (max-width: 380px) {
+  .spw-title { font-size: 22px; }
+  .spw-result-actions { flex-direction: column; }
+}
+
+  </style>
+
+  <div class="spw-card">
+
+    <header class="spw-header">
+      <span class="spw-eyebrow">Cosmetic preview tool</span>
+      <h2 class="spw-title">See your smile, reimagined</h2>
+      <p class="spw-subtitle">
+        Upload a clear, front-facing photo and our AI will generate a
+        gentle, realistic preview of what conservative cosmetic
+        dentistry could look like on you.
+      </p>
+    </header>
+
+    <!-- STEP 1: Upload -->
+    <section class="spw-step" data-step="upload">
+      <div class="spw-dropzone" id="spwDropzone" tabindex="0" role="button"
+           aria-label="Upload a selfie by clicking or dragging a photo here">
+        <input type="file" id="spwFileInput" accept="image/jpeg,image/png,image/webp" hidden />
+        <div class="spw-dropzone-content" id="spwDropzoneEmpty">
+          <svg class="spw-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect x="6" y="6" width="36" height="36" rx="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M15 30l6-7 5 5 4-5 8 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="18" cy="18" r="2.5" fill="currentColor"/>
+          </svg>
+          <p class="spw-dropzone-text"><strong>Drag & drop a photo</strong> or click to choose a file</p>
+          <p class="spw-dropzone-hint">JPEG, PNG, or WEBP · up to 8MB · front-facing, well-lit works best</p>
+        </div>
+        <div class="spw-preview-wrap" id="spwPreviewWrap" hidden>
+          <img id="spwPreviewImg" class="spw-preview-img" alt="Your uploaded photo preview" />
+          <button type="button" class="spw-remove-btn" id="spwRemoveBtn" aria-label="Remove photo">Remove photo</button>
+        </div>
+      </div>
+
+      <label class="spw-consent">
+        <input type="checkbox" id="spwConsent" />
+        <span>
+          I consent to my photo being processed by an AI image model to
+          generate a cosmetic smile preview. I understand this is a
+          visualization only — <strong>not a medical diagnosis or a
+          guaranteed treatment outcome</strong> — and that my photo is
+          used only to generate this preview and is not stored
+          permanently.
+          <a href="#" id="spwPrivacyLink" class="spw-privacy-link">Learn more</a>
+        </span>
+      </label>
+
+      <div id="spwPrivacyNote" class="spw-privacy-note" hidden>
+        Your photo is sent securely to our server, forwarded to our AI
+        provider for processing, and never written to permanent
+        storage. Temporary data is discarded automatically once your
+        preview is generated.
+      </div>
+
+      <button type="button" class="spw-primary-btn" id="spwGenerateBtn" disabled>
+        Generate Smile Preview
+      </button>
+
+      <p class="spw-error" id="spwError" role="alert" hidden></p>
+    </section>
+
+    <!-- STEP 2: Loading -->
+    <section class="spw-step" data-step="loading" hidden>
+      <div class="spw-loading">
+        <div class="spw-spinner" aria-hidden="true"></div>
+        <p class="spw-loading-text">Generating your smile preview…</p>
+        <p class="spw-loading-hint">This usually takes 15–30 seconds.</p>
+      </div>
+    </section>
+
+    <!-- STEP 3: Result -->
+    <section class="spw-step" data-step="result" hidden>
+      <div class="spw-compare" id="spwCompare">
+        <div class="spw-compare-before">
+          <img id="spwBeforeImg" alt="Photo before smile preview" />
+        </div>
+        <div class="spw-compare-after" id="spwCompareAfter">
+          <img id="spwAfterImg" alt="AI-generated smile preview" />
+        </div>
+        <div class="spw-compare-handle" id="spwCompareHandle">
+          <span class="spw-compare-handle-grip">↔</span>
+        </div>
+        <input type="range" id="spwCompareSlider" class="spw-compare-slider" min="0" max="100" value="50"
+               aria-label="Slide to compare before and after" />
+        <span class="spw-badge spw-badge-before">Before</span>
+        <span class="spw-badge spw-badge-after">After</span>
+      </div>
+
+      <p class="spw-disclaimer">
+        This is an AI-generated cosmetic visualization for illustrative
+        purposes only. It is not a medical diagnosis, treatment plan,
+        or guarantee of results. Actual outcomes vary and depend on an
+        in-person evaluation by a licensed dental professional.
+      </p>
+
+      <div class="spw-result-actions">
+        <button type="button" class="spw-secondary-btn" id="spwDownloadBtn">Download image</button>
+        <button type="button" class="spw-secondary-btn" id="spwRestartBtn">Try another photo</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+/**
+ * AI Smile Preview widget — client logic.
+ *
+ * Everything is scoped inside an IIFE and looks up elements within
+ * #smile-preview-widget only, so this can safely sit alongside other
+ * scripts on a Squarespace page.
+ *
+ * CONFIGURE ME: set this to your deployed backend's base URL
+ * (e.g. the Render service URL). No trailing slash.
+ */
+(function () {
+  'use strict';
+
+  var SMILE_API_BASE_URL = window.SMILE_API_BASE_URL || 'https://your-backend.onrender.com';
+
+  var MAX_FILE_BYTES = 8 * 1024 * 1024; // keep in sync with backend MAX_UPLOAD_MB
+  var ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+  var root = document.getElementById('smile-preview-widget');
+  if (!root) return; // widget markup not present on this page
+
+  // ---- element lookups -------------------------------------------------
+  var steps = {
+    upload: root.querySelector('[data-step="upload"]'),
+    loading: root.querySelector('[data-step="loading"]'),
+    result: root.querySelector('[data-step="result"]'),
+  };
+
+  var dropzone = root.querySelector('#spwDropzone');
+  var fileInput = root.querySelector('#spwFileInput');
+  var dropzoneEmpty = root.querySelector('#spwDropzoneEmpty');
+  var previewWrap = root.querySelector('#spwPreviewWrap');
+  var previewImg = root.querySelector('#spwPreviewImg');
+  var removeBtn = root.querySelector('#spwRemoveBtn');
+  var consentCheckbox = root.querySelector('#spwConsent');
+  var generateBtn = root.querySelector('#spwGenerateBtn');
+  var errorEl = root.querySelector('#spwError');
+  var privacyLink = root.querySelector('#spwPrivacyLink');
+  var privacyNote = root.querySelector('#spwPrivacyNote');
+
+  var beforeImg = root.querySelector('#spwBeforeImg');
+  var afterImg = root.querySelector('#spwAfterImg');
+  var compareAfter = root.querySelector('#spwCompareAfter');
+  var compareHandle = root.querySelector('#spwCompareHandle');
+  var compareSlider = root.querySelector('#spwCompareSlider');
+  var downloadBtn = root.querySelector('#spwDownloadBtn');
+  var restartBtn = root.querySelector('#spwRestartBtn');
+
+  var selectedFile = null;
+  var resultDataUrl = null;
+
+  // ---- helpers -----------------------------------------------------------
+
+  function showStep(name) {
+    Object.keys(steps).forEach(function (key) {
+      if (!steps[key]) return;
+      steps[key].hidden = key !== name;
+    });
+  }
+
+  function showError(message) {
+    errorEl.textContent = message;
+    errorEl.hidden = false;
+  }
+
+  function clearError() {
+    errorEl.hidden = true;
+    errorEl.textContent = '';
+  }
+
+  function updateGenerateButtonState() {
+    generateBtn.disabled = !(selectedFile && consentCheckbox.checked);
+  }
+
+  function resetToUpload() {
+    selectedFile = null;
+    resultDataUrl = null;
+    fileInput.value = '';
+    previewImg.src = '';
+    previewWrap.hidden = true;
+    dropzoneEmpty.hidden = false;
+    consentCheckbox.checked = false;
+    clearError();
+    updateGenerateButtonState();
+    showStep('upload');
+  }
+
+  /**
+   * Validates a File object client-side before it's ever sent to the
+   * server. This is a UX convenience only — the backend re-validates
+   * everything independently and must not be trusted to skip that.
+   */
+  function validateFile(file) {
+    if (!file) return 'No file selected.';
+    if (ALLOWED_TYPES.indexOf(file.type) === -1) {
+      return 'Please upload a JPEG, PNG, or WEBP image.';
+    }
+    if (file.size > MAX_FILE_BYTES) {
+      return 'Please upload an image smaller than 8MB.';
+    }
+    return null;
+  }
+
+  function handleFileSelected(file) {
+    clearError();
+    var validationError = validateFile(file);
+    if (validationError) {
+      showError(validationError);
+      return;
+    }
+    selectedFile = file;
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      previewImg.src = e.target.result;
+      dropzoneEmpty.hidden = true;
+      previewWrap.hidden = false;
+    };
+    reader.readAsDataURL(file);
+
+    updateGenerateButtonState();
+  }
+
+  // ---- upload interactions ------------------------------------------------
+
+  dropzone.addEventListener('click', function (e) {
+    if (e.target === removeBtn) return;
+    fileInput.click();
+  });
+
+  dropzone.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fileInput.click();
+    }
+  });
+
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files && fileInput.files[0]) {
+      handleFileSelected(fileInput.files[0]);
+    }
+  });
+
+  ['dragenter', 'dragover'].forEach(function (evtName) {
+    dropzone.addEventListener(evtName, function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.add('spw-dragover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(function (evtName) {
+    dropzone.addEventListener(evtName, function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.remove('spw-dragover');
+    });
+  });
+
+  dropzone.addEventListener('drop', function (e) {
+    var files = e.dataTransfer && e.dataTransfer.files;
+    if (files && files[0]) {
+      handleFileSelected(files[0]);
+    }
+  });
+
+  removeBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    selectedFile = null;
+    fileInput.value = '';
+    previewImg.src = '';
+    previewWrap.hidden = true;
+    dropzoneEmpty.hidden = false;
+    updateGenerateButtonState();
+  });
+
+  consentCheckbox.addEventListener('change', updateGenerateButtonState);
+
+  privacyLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    privacyNote.hidden = !privacyNote.hidden;
+  });
+
+  // ---- generate ------------------------------------------------------------
+
+  generateBtn.addEventListener('click', function () {
+    if (!selectedFile || !consentCheckbox.checked) return;
+
+    clearError();
+    showStep('loading');
+
+    var formData = new FormData();
+    formData.append('image', selectedFile);
+    formData.append('consent', 'true');
+
+    fetch(SMILE_API_BASE_URL + '/generate', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          if (!response.ok) {
+            throw new Error(data && data.message ? data.message : 'Something went wrong. Please try again.');
+          }
+          return data;
+        });
+      })
+      .then(function (data) {
+        if (!data || !data.image) {
+          throw new Error('The server did not return an image. Please try again.');
+        }
+        resultDataUrl = data.image;
+        beforeImg.src = previewImg.src;
+        afterImg.src = resultDataUrl;
+        compareSlider.value = 50;
+        setComparePosition(50);
+        showStep('result');
+      })
+      .catch(function (err) {
+        showStep('upload');
+        showError(err.message || 'Something went wrong generating your preview. Please try again.');
+      });
+  });
+
+  // ---- before/after compare slider -----------------------------------------
+
+  function setComparePosition(percent) {
+    var clamped = Math.max(0, Math.min(100, percent));
+    compareAfter.style.clipPath = 'inset(0 ' + (100 - clamped) + '% 0 0)';
+    compareHandle.style.left = clamped + '%';
+  }
+
+  compareSlider.addEventListener('input', function () {
+    setComparePosition(Number(compareSlider.value));
+  });
+
+  // ---- download --------------------------------------------------------
+
+  downloadBtn.addEventListener('click', function () {
+    if (!resultDataUrl) return;
+    var link = document.createElement('a');
+    link.href = resultDataUrl;
+    link.download = 'smile-preview.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  restartBtn.addEventListener('click', resetToUpload);
+
+  // ---- init ---------------------------------------------------------------
+  updateGenerateButtonState();
+})();
+
+</script>

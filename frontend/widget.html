@@ -1,0 +1,124 @@
+<!--
+  AI Smile Preview widget
+  ------------------------------------------------------------------
+  Paste this entire block into a Squarespace Code Block (Page or
+  Section > Add Block > Code). It is self-contained: markup, styles,
+  and script all live inside this one snippet, scoped so they won't
+  collide with the rest of the page. See SQUARESPACE.md for the
+  full installation guide and the one line you must edit below
+  (SMILE_API_BASE_URL).
+-->
+<div id="smile-preview-widget" class="spw-root">
+
+  <style>
+    /* Styles are included here — see widget.css for the same file
+       on its own, in case you'd rather host it externally. */
+  </style>
+
+  <div class="spw-card">
+
+    <header class="spw-header">
+      <span class="spw-eyebrow">Cosmetic preview tool</span>
+      <h2 class="spw-title">See your smile, reimagined</h2>
+      <p class="spw-subtitle">
+        Upload a clear, front-facing photo and our AI will generate a
+        gentle, realistic preview of what conservative cosmetic
+        dentistry could look like on you.
+      </p>
+    </header>
+
+    <!-- STEP 1: Upload -->
+    <section class="spw-step" data-step="upload">
+      <div class="spw-dropzone" id="spwDropzone" tabindex="0" role="button"
+           aria-label="Upload a selfie by clicking or dragging a photo here">
+        <input type="file" id="spwFileInput" accept="image/jpeg,image/png,image/webp" hidden />
+        <div class="spw-dropzone-content" id="spwDropzoneEmpty">
+          <svg class="spw-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect x="6" y="6" width="36" height="36" rx="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M15 30l6-7 5 5 4-5 8 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="18" cy="18" r="2.5" fill="currentColor"/>
+          </svg>
+          <p class="spw-dropzone-text"><strong>Drag & drop a photo</strong> or click to choose a file</p>
+          <p class="spw-dropzone-hint">JPEG, PNG, or WEBP · up to 8MB · front-facing, well-lit works best</p>
+        </div>
+        <div class="spw-preview-wrap" id="spwPreviewWrap" hidden>
+          <img id="spwPreviewImg" class="spw-preview-img" alt="Your uploaded photo preview" />
+          <button type="button" class="spw-remove-btn" id="spwRemoveBtn" aria-label="Remove photo">Remove photo</button>
+        </div>
+      </div>
+
+      <label class="spw-consent">
+        <input type="checkbox" id="spwConsent" />
+        <span>
+          I consent to my photo being processed by an AI image model to
+          generate a cosmetic smile preview. I understand this is a
+          visualization only — <strong>not a medical diagnosis or a
+          guaranteed treatment outcome</strong> — and that my photo is
+          used only to generate this preview and is not stored
+          permanently.
+          <a href="#" id="spwPrivacyLink" class="spw-privacy-link">Learn more</a>
+        </span>
+      </label>
+
+      <div id="spwPrivacyNote" class="spw-privacy-note" hidden>
+        Your photo is sent securely to our server, forwarded to our AI
+        provider for processing, and never written to permanent
+        storage. Temporary data is discarded automatically once your
+        preview is generated.
+      </div>
+
+      <button type="button" class="spw-primary-btn" id="spwGenerateBtn" disabled>
+        Generate Smile Preview
+      </button>
+
+      <p class="spw-error" id="spwError" role="alert" hidden></p>
+    </section>
+
+    <!-- STEP 2: Loading -->
+    <section class="spw-step" data-step="loading" hidden>
+      <div class="spw-loading">
+        <div class="spw-spinner" aria-hidden="true"></div>
+        <p class="spw-loading-text">Generating your smile preview…</p>
+        <p class="spw-loading-hint">This usually takes 15–30 seconds.</p>
+      </div>
+    </section>
+
+    <!-- STEP 3: Result -->
+    <section class="spw-step" data-step="result" hidden>
+      <div class="spw-compare" id="spwCompare">
+        <div class="spw-compare-before">
+          <img id="spwBeforeImg" alt="Photo before smile preview" />
+        </div>
+        <div class="spw-compare-after" id="spwCompareAfter">
+          <img id="spwAfterImg" alt="AI-generated smile preview" />
+        </div>
+        <div class="spw-compare-handle" id="spwCompareHandle">
+          <span class="spw-compare-handle-grip">↔</span>
+        </div>
+        <input type="range" id="spwCompareSlider" class="spw-compare-slider" min="0" max="100" value="50"
+               aria-label="Slide to compare before and after" />
+        <span class="spw-badge spw-badge-before">Before</span>
+        <span class="spw-badge spw-badge-after">After</span>
+      </div>
+
+      <p class="spw-disclaimer">
+        This is an AI-generated cosmetic visualization for illustrative
+        purposes only. It is not a medical diagnosis, treatment plan,
+        or guarantee of results. Actual outcomes vary and depend on an
+        in-person evaluation by a licensed dental professional.
+      </p>
+
+      <div class="spw-result-actions">
+        <button type="button" class="spw-secondary-btn" id="spwDownloadBtn">Download image</button>
+        <button type="button" class="spw-secondary-btn" id="spwRestartBtn">Try another photo</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  // Configuration is inlined here so this file stays copy-paste-able
+  // into a single Squarespace Code Block. See widget.js for the same
+  // logic as an external file.
+</script>
