@@ -2,7 +2,7 @@
 
 const express = require('express');
 const sharp = require('sharp');
-const { fileTypeFromBuffer } = require('file-type');
+const FileType = require('file-type');
 
 const { upload, MAX_UPLOAD_MB } = require('../middleware/upload');
 const { generateLimiter } = require('../middleware/rateLimiter');
@@ -50,7 +50,7 @@ router.post('/generate', generateLimiter, upload.single('image'), async (req, re
     // 3. Verify the file's real contents against its declared MIME
     //    type using magic-byte sniffing — never trust the
     //    Content-Type header or file extension alone.
-    const detected = await fileTypeFromBuffer(req.file.buffer);
+    const detected = await FileType.fromBuffer(req.file.buffer);
     if (!detected || !ALLOWED_FILE_TYPE_EXTENSIONS.has(detected.ext) || !ALLOWED_MIME_TYPES.has(detected.mime)) {
       return res.status(400).json({
         error: 'INVALID_IMAGE_CONTENT',
