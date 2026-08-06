@@ -20,26 +20,31 @@ const MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1';
  * preserving edits.
  */
 const SMILE_PREVIEW_PROMPT = `
-Edit this photo to show a realistic, conservative cosmetic dentistry preview.
-Apply only the following changes:
+Edit ONLY the mouth and teeth region of this photo to show a realistic,
+conservative cosmetic dentistry preview. Apply exactly these changes,
+and nothing else:
 - Straighten the teeth naturally, as if from clear aligners or braces
 - Whiten the teeth slightly — a natural, healthy shade, not bright white
 - Improve dental symmetry and evenness subtly
 - Keep tooth size and shape proportional to the face and mouth
 
-Do not change anything else. Preserve exactly:
-- The person's facial structure and identity
-- Skin tone and texture
-- Lighting and shadows in the original photo
-- Hairstyle and hair color
-- Apparent age
-- Facial expression and head pose
-- Background
+Do NOT change anything outside the teeth themselves. Specifically, do
+NOT alter, smooth, retouch, or beautify: skin texture, wrinkles, pores,
+blemishes, under-eye area, eyebrows, eyes, nose, jawline, cheeks, ears,
+or any other facial feature. Do NOT slim the face, change proportions,
+or apply any general beautification or skin-smoothing effect. The lips
+should move only as much as naturally required to show the improved
+teeth — do not reshape or resize the lips themselves.
 
-Avoid an artificial, "veneers" or "Hollywood" look. The result should look
-like something achievable through real cosmetic dentistry (whitening,
-clear aligners, or minor bonding) — subtle, natural, and true to the
-original photo. This is a cosmetic visualization only, not a medical or
+Preserve exactly, pixel-for-pixel where possible: facial structure and
+identity, skin tone and texture, all skin imperfections and asymmetries,
+lighting and shadows, hairstyle and hair color, apparent age, facial
+expression, head pose, and background.
+
+Avoid an artificial, "veneers" or "Hollywood" look. The result should
+look like the exact same photo with only the teeth edited — as if
+achieved through real cosmetic dentistry (whitening, clear aligners, or
+minor bonding). This is a cosmetic visualization only, not a medical or
 diagnostic image.
 `.trim();
 
